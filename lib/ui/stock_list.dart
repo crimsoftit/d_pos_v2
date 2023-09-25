@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'package:d_pos_v2/ui/inventory_items_screen.dart';
 import 'package:d_pos_v2/ui/stock_list_dialog.dart';
 import 'package:d_pos_v2/utils/db_helper.dart';
 import 'package:flutter/material.dart';
@@ -52,15 +51,15 @@ class _StockListState extends State<StockList> {
               child: ListTile(
                 title: Text(inventoryList[index].name),
                 leading: CircleAvatar(
-                  child: Text(inventoryList[index].priority.toString()),
+                  child: Text(inventoryList[index].quantity.toString()),
                 ),
                 onTap: () {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) => dialog.buildDialog(
                       context,
-                      InventoryModel(0, 0, '', 0),
-                      true,
+                      inventoryList[index],
+                      false,
                     ),
                   );
                 },

@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:d_pos_v2/models/inventory_model.dart';
-import 'package:d_pos_v2/models/sales_item.dart';
+import 'package:d_pos_v2/models/sales_item_model.dart';
 
 class DbHelper {
   final int version = 1;
@@ -21,13 +21,10 @@ class DbHelper {
     db = await openDatabase(join(await getDatabasesPath(), 'stock.db'),
         onCreate: (database, version) {
       database.execute(
-          'CREATE TABLE inventory (id INTEGER, pCode INTEGER PRIMARY KEY, name TEXT, priority INTEGER)');
+          'CREATE TABLE inventory (id INTEGER, pCode INTEGER PRIMARY KEY, name TEXT, quantity INTEGER)');
 
-      //   database.execute(
-      //       'CREATE TABLE sales (id INTEGER PRIMARY KEY, productCode INTEGER, name TEXT, quantity TEXT, FOREIGN KEY productCode REFERENCES inventory(pCode))');
-      // }, version: version);
       database.execute(
-          'CREATE TABLE sales(id INTEGER PRIMARY KEY AUTOINCREMENT, productCode INTEGER, name TEXT, quantity TEXT  FOREIGN KEY(productCode) REFERENCES inventory(pCode))');
+          'CREATE TABLE sales(id INTEGER PRIMARY KEY AUTOINCREMENT, productCode INTEGER, name TEXT, quantity INTEGER, date TEXT, FOREIGN KEY(productCode) REFERENCES inventory(pCode))');
     }, version: version);
     return db!;
   }
@@ -36,8 +33,8 @@ class DbHelper {
     db = await openDb();
 
     await db!.execute('INSERT INTO inventory VALUES (0, 12, "fruit", 2)');
-    await db!.execute(
-        'INSERT INTO sales VALUES (0, 0, 13, "apples", "2 kg", "make em green")');
+    await db!
+        .execute('INSERT INTO sales VALUES (0, 0, "apples", 13,  "2/1/2022")');
     List inventory = await db!.rawQuery('select * from inventory');
     List sales = await db!.rawQuery('select * from sales');
     print(inventory[0].toString());
@@ -60,13 +57,13 @@ class DbHelper {
     return pCode;
   }
 
-  Future<int> insertSalesItem(SalesItem item) async {
-    int pCode = await db!.insert(
+  Future<int> insertSalesItem(SalesItemModel soldItem) async {
+    int productCode = await db!.insert(
       'sales',
-      item.toMap(),
+      soldItem.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    return pCode;
+    return productCode;
   }
 
   // get the 'Map List' [ List<Map> ] and convert it to 'Stock List' [ List<Stock> ]
@@ -86,17 +83,20 @@ class DbHelper {
 
   Future<int> deleteInventoryItem(InventoryModel inventory) async {
     int result = await db!.delete(
+      'inventory',
+      where: 'pCode = ?',
+      whereArgs: [inventory.pCode],
+    );
+
+    return result;
+  }
+
+  Future<int> deleteSoldItem(SalesItemModel soldItem) async {
+    int result = await db!.delete(
       'sales',
       where: 'pCode = ?',
-      whereArgs: [inventory.id],
+      whereArgs: [soldItem.productCode],
     );
-
-    result = await db!.delete(
-      'inventory',
-      where: 'id = ?',
-      whereArgs: [inventory.id],
-    );
-
     return result;
   }
 }

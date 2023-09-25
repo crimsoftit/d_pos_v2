@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class StockListDialog {
   final txtName = TextEditingController();
   final txtCode = TextEditingController();
+  final txtQty = TextEditingController();
 
   Widget buildDialog(
       BuildContext context, InventoryModel invModel, bool isNew) {
@@ -13,6 +14,11 @@ class StockListDialog {
     if (!isNew) {
       txtName.text = invModel.name;
       txtCode.text = invModel.pCode.toString();
+      txtQty.text = invModel.quantity.toString();
+    } else {
+      txtName.text = "";
+      txtCode.text = "";
+      txtQty.text = "";
     }
 
     return AlertDialog(
@@ -29,11 +35,16 @@ class StockListDialog {
               controller: txtCode,
               decoration: const InputDecoration(hintText: 'product code'),
             ),
+            TextField(
+              controller: txtQty,
+              decoration: const InputDecoration(hintText: 'quantity'),
+            ),
             ElevatedButton(
               child: const Text('save'),
               onPressed: () {
                 invModel.name = txtName.text;
                 invModel.pCode = int.parse(txtCode.text);
+                invModel.quantity = int.parse(txtQty.text);
                 helper.insertInventoryList(invModel);
                 Navigator.pop(context);
               },

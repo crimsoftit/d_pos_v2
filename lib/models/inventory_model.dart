@@ -1,33 +1,31 @@
-
-
 class InventoryModel {
   int? _id;
   int _pCode = 0;
   String _name = "";
-  int _priority = 1;
+  int _quantity = 1;
 
-  InventoryModel(this._id, this._pCode, this._name, this._priority);
+  InventoryModel(this._id, this._pCode, this._name, this._quantity);
 
   int? get id => _id;
   int get pCode => _pCode;
   String get name => _name;
-  int get priority => _priority;
+  int get quantity => _quantity;
 
   set pCode(int newPcode) {
     _pCode = newPcode;
   }
 
   set name(String newName) {
-    if (newName.length <= 255) {
+    if (newName.length <= 255 || newName.length >= 3) {
       _name = newName;
     }
   }
 
-  set priority(int newPriority) {
-    _pCode = newPriority;
+  set quantity(int newQty) {
+    _quantity = newQty;
   }
 
-  // convert a InventoryModel object into a Map object
+  // convert an InventoryModel object into a Map object
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{};
 
@@ -36,7 +34,7 @@ class InventoryModel {
     }
     map['pCode'] = _pCode;
     map['name'] = _name;
-    map['priority'] = _priority;
+    map['quantity'] = _quantity;
 
     return map;
   }
@@ -46,6 +44,6 @@ class InventoryModel {
     _id = map['id'];
     _name = map['name'];
     _pCode = map['pCode'];
-    _priority = map['priority'];
+    _quantity = map['quantity'];
   }
 }
