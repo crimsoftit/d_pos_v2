@@ -21,7 +21,7 @@ class DbHelper {
     db = await openDatabase(join(await getDatabasesPath(), 'stock.db'),
         onCreate: (database, version) {
       database.execute(
-          'CREATE TABLE inventory (id INTEGER, pCode INTEGER PRIMARY KEY, name TEXT, quantity INTEGER)');
+          'CREATE TABLE inventory (id INTEGER, pCode INTEGER PRIMARY KEY, name TEXT, quantity INTEGER, date TEXT)');
 
       database.execute(
           'CREATE TABLE sales(id INTEGER PRIMARY KEY AUTOINCREMENT, productCode INTEGER, name TEXT, quantity INTEGER, date TEXT, FOREIGN KEY(productCode) REFERENCES inventory(pCode))');
@@ -32,7 +32,8 @@ class DbHelper {
   Future testDb() async {
     db = await openDb();
 
-    await db!.execute('INSERT INTO inventory VALUES (0, 12, "fruit", 2)');
+    await db!.execute(
+        'INSERT INTO inventory VALUES (0, 12, "fruit", 2, "3/2/2021")');
     await db!
         .execute('INSERT INTO sales VALUES (0, 0, "apples", 13,  "2/1/2022")');
     List inventory = await db!.rawQuery('select * from inventory');
@@ -45,6 +46,13 @@ class DbHelper {
   Future<List<Map<String, dynamic>>> getInventoryMapList() async {
     // var rawResult = await db.rawQuery('SELECT * FROM inventory order by priority');
     var ormResult = await db!.query('inventory');
+    return ormResult;
+  }
+
+  Future<List<Map<String, dynamic>>> getInventoryDetailsMap(
+      int productCode) async {
+    var ormResult = await db!
+        .query('sales', where: 'productCode = ?', whereArgs: [productCode]);
     return ormResult;
   }
 
@@ -79,6 +87,21 @@ class DbHelper {
       inventoryItems.add(InventoryModel.fromMapObject(inventoryMapList[i]));
     }
     return inventoryItems;
+  }
+
+  Future<List<SalesItemModel>> getInvItemDetails(int productCode) async {
+    var invDetails = await getInventoryDetailsMap(productCode);
+
+    int invDetailsCount = invDetails.length;
+
+    List<SalesItemModel> invItems = <SalesItemModel>[];
+
+    // for loop to create an 'InventoryList' Object from a 'MapList' Object
+    for (int i = 0; i < invDetailsCount; i++) {
+      invItems.add(
+          SalesItemModel.fromMapObject(invItems[i] as Map<String, dynamic>));
+    }
+    return invItems;
   }
 
   Future<int> deleteInventoryItem(InventoryModel inventory) async {

@@ -1,6 +1,7 @@
 import 'package:d_pos_v2/models/inventory_model.dart';
 import 'package:d_pos_v2/utils/db_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class StockListDialog {
   final txtName = TextEditingController();
@@ -45,6 +46,7 @@ class StockListDialog {
                 invModel.name = txtName.text;
                 invModel.pCode = int.parse(txtCode.text);
                 invModel.quantity = int.parse(txtQty.text);
+                invModel.date = DateFormat.yMMMd().format(DateTime.now());
                 helper.insertInventoryList(invModel);
                 Navigator.pop(context);
               },

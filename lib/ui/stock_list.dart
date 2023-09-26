@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:d_pos_v2/ui/sold_items_screen.dart';
 import 'package:d_pos_v2/ui/stock_list_dialog.dart';
 import 'package:d_pos_v2/utils/db_helper.dart';
 import 'package:flutter/material.dart';
@@ -54,14 +55,21 @@ class _StockListState extends State<StockList> {
                   child: Text(inventoryList[index].quantity.toString()),
                 ),
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => dialog.buildDialog(
-                      context,
-                      inventoryList[index],
-                      false,
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          SoldItemsScreen(inventoryList[index]),
                     ),
                   );
+                  // showDialog(
+                  //   context: context,
+                  //   builder: (BuildContext context) => dialog.buildDialog(
+                  //     context,
+                  //     inventoryList[index],
+                  //     false,
+                  //   ),
+                  // );
                 },
                 trailing: IconButton(
                   icon: const Icon(Icons.edit),
@@ -84,7 +92,7 @@ class _StockListState extends State<StockList> {
             context: context,
             builder: (BuildContext context) => dialog.buildDialog(
               context,
-              InventoryModel(0, 0, '', 0),
+              InventoryModel(0, 0, '', 0, ''),
               true,
             ),
           );

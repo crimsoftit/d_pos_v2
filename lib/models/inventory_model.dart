@@ -3,13 +3,21 @@ class InventoryModel {
   int _pCode = 0;
   String _name = "";
   int _quantity = 1;
+  String _date = "";
 
-  InventoryModel(this._id, this._pCode, this._name, this._quantity);
+  InventoryModel(
+    this._id,
+    this._pCode,
+    this._name,
+    this._quantity,
+    this._date,
+  );
 
   int? get id => _id;
   int get pCode => _pCode;
   String get name => _name;
   int get quantity => _quantity;
+  String get date => _date;
 
   set pCode(int newPcode) {
     _pCode = newPcode;
@@ -25,6 +33,10 @@ class InventoryModel {
     _quantity = newQty;
   }
 
+  set date(String newDate) {
+    _date = newDate;
+  }
+
   // convert an InventoryModel object into a Map object
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{};
@@ -35,6 +47,7 @@ class InventoryModel {
     map['pCode'] = _pCode;
     map['name'] = _name;
     map['quantity'] = _quantity;
+    map['date'] = _date;
 
     return map;
   }
@@ -45,5 +58,6 @@ class InventoryModel {
     _name = map['name'];
     _pCode = map['pCode'];
     _quantity = map['quantity'];
+    _date = map['date'];
   }
 }
