@@ -14,7 +14,7 @@ class StockList extends StatefulWidget {
 }
 
 class _StockListState extends State<StockList> {
-  late List<InventoryModel> inventoryList = [];
+  List<InventoryModel> inventoryList = [];
   DbHelper helper = DbHelper();
   StockListDialog dialog = StockListDialog();
 
@@ -55,21 +55,21 @@ class _StockListState extends State<StockList> {
                   child: Text(inventoryList[index].quantity.toString()),
                 ),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          SoldItemsScreen(inventoryList[index]),
-                    ),
-                  );
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (BuildContext context) => dialog.buildDialog(
-                  //     context,
-                  //     inventoryList[index],
-                  //     false,
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) =>
+                  //         SoldItemsScreen(inventoryList[index]),
                   //   ),
                   // );
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => dialog.buildDialog(
+                      context,
+                      inventoryList[index],
+                      false,
+                    ),
+                  );
                 },
                 trailing: IconButton(
                   icon: const Icon(Icons.edit),

@@ -1,3 +1,4 @@
 {
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "cmake.sourceDirectory": "/home/crimsoft/projects/flutter/d_pos_v2/linux"
 }

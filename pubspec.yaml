@@ -76,8 +76,25 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/dhc_logo.png
+    
+    - assets/icons/Bell.svg
+    - assets/icons/Subscribers.svg
+    - assets/icons/Pages.svg
+    - assets/icons/Post.svg
+    - assets/icons/Comments.svg
+    - assets/icons/Facebook.svg
+    - assets/icons/Twitter.svg
+    - assets/icons/Linkedin.svg
+    - assets/icons/Dribbble.svg
+    - assets/icons/Dashboard.svg
+    - assets/icons/Message.svg
+    - assets/icons/stock.svg
+    - assets/icons/Statistics.svg
+    - assets/icons/Settings.svg
+    - assets/icons/Logout.svg
+    - assets/icons/inventory.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

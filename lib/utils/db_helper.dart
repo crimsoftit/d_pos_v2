@@ -49,10 +49,8 @@ class DbHelper {
     return ormResult;
   }
 
-  Future<List<Map<String, dynamic>>> getInventoryDetailsMap(
-      int productCode) async {
-    var ormResult = await db!
-        .query('sales', where: 'productCode = ?', whereArgs: [productCode]);
+  Future<List<Map<String, dynamic>>> getSalesListMap() async {
+    var ormResult = await db!.query('Sales');
     return ormResult;
   }
 
@@ -89,19 +87,18 @@ class DbHelper {
     return inventoryItems;
   }
 
-  Future<List<SalesItemModel>> getInvItemDetails(int productCode) async {
-    var invDetails = await getInventoryDetailsMap(productCode);
+  Future<List<SalesItemModel>> getSalesList() async {
+    var soldItems = await getSalesListMap();
 
-    int invDetailsCount = invDetails.length;
+    int soldCount = soldItems.length;
 
-    List<SalesItemModel> invItems = <SalesItemModel>[];
+    List<SalesItemModel> itemsSold = <SalesItemModel>[];
 
-    // for loop to create an 'InventoryList' Object from a 'MapList' Object
-    for (int i = 0; i < invDetailsCount; i++) {
-      invItems.add(
-          SalesItemModel.fromMapObject(invItems[i] as Map<String, dynamic>));
+    // for loop to create an 'SalesList' Object from a 'MapList' Object
+    for (int i = 0; i < soldCount; i++) {
+      itemsSold.add(SalesItemModel.fromMapObject(soldItems[i]));
     }
-    return invItems;
+    return itemsSold;
   }
 
   Future<int> deleteInventoryItem(InventoryModel inventory) async {
