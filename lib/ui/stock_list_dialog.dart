@@ -9,6 +9,7 @@ class StockListDialog {
   final txtName = TextEditingController();
   final txtCode = TextEditingController();
   final txtQty = TextEditingController();
+  final txtPrice = TextEditingController();
 
   Widget buildDialog(
       BuildContext context, InventoryModel invModel, bool isNew) {
@@ -20,15 +21,17 @@ class StockListDialog {
       txtName.text = invModel.name;
       txtCode.text = invModel.pCode.toString();
       txtQty.text = invModel.quantity.toString();
+      txtPrice.text = invModel.price.toString();
     } else {
       scanBarcodeNormal();
       txtName.text = "";
       txtCode.text = "";
       txtQty.text = "";
+      txtPrice.text = "";
     }
 
     return AlertDialog(
-      title: Text((isNew) ? 'new entry' : 'edit entry'),
+      title: Text((isNew) ? 'new entry...' : 'edit entry...'),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       content: SingleChildScrollView(
         child: Column(
@@ -59,6 +62,17 @@ class StockListDialog {
                     ],
                     decoration: const InputDecoration(hintText: 'quantity'),
                   ),
+                  TextFormField(
+                    controller: txtPrice,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                      signed: false,
+                    ),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    decoration: const InputDecoration(hintText: 'unit price'),
+                  ),
                   IconButton(
                     icon: const Icon(
                       Icons.adf_scanner_outlined,
@@ -73,6 +87,7 @@ class StockListDialog {
                       invModel.name = txtName.text;
                       invModel.pCode = int.parse(txtCode.text);
                       invModel.quantity = int.parse(txtQty.text);
+                      invModel.price = int.parse(txtPrice.text);
                       invModel.date = DateFormat.yMMMd().format(DateTime.now());
                       helper.insertInventoryList(invModel);
                       Navigator.pop(context);

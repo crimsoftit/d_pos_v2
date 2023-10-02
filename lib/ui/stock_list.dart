@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'package:d_pos_v2/ui/sold_items_screen.dart';
 import 'package:d_pos_v2/ui/stock_list_dialog.dart';
 import 'package:d_pos_v2/utils/db_helper.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +91,7 @@ class _StockListState extends State<StockList> {
             context: context,
             builder: (BuildContext context) => dialog.buildDialog(
               context,
-              InventoryModel(0, 0, '', 0, ''),
+              InventoryModel(0, 0, '', 0, 0, ''),
               true,
             ),
           );

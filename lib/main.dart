@@ -4,7 +4,6 @@ import 'package:d_pos_v2/responsive/desktop_scaffold.dart';
 import 'package:d_pos_v2/responsive/mobile_scaffold.dart';
 import 'package:d_pos_v2/responsive/responsive_layout.dart';
 import 'package:d_pos_v2/responsive/tablet_scaffold.dart';
-import 'package:d_pos_v2/ui/stock_list.dart';
 import 'package:flutter/material.dart';
 import 'package:d_pos_v2/ui/stock_list_dialog.dart';
 
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: ResponsiveLayout(
+      home: const ResponsiveLayout(
         mobileScaffold: MobileScaffold(),
         tabletScaffold: TabletScaffold(),
         desktopScaffold: DesktopScaffold(),

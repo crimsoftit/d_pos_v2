@@ -10,7 +10,7 @@ class TabletScaffold extends StatefulWidget {
 class _TabletScaffoldState extends State<TabletScaffold> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.green,
     );
   }

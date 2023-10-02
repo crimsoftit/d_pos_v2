@@ -5,12 +5,14 @@ class SalesItemModel {
   int _productCode = 0;
   String _name = "";
   int _quantity = 0;
+  int _price = 0;
   String _date = "";
 
   SalesItemModel(
     this._productCode,
     this._name,
     this._quantity,
+    this._price,
     this._date,
   );
 
@@ -19,6 +21,7 @@ class SalesItemModel {
     this._productCode,
     this._name,
     this._quantity,
+    this._price,
     this._date,
   );
 
@@ -27,6 +30,7 @@ class SalesItemModel {
   int get productCode => _productCode;
   String get name => _name;
   int get quantity => _quantity;
+  int get price => _price;
   String get date => _date;
 
   set productCode(int newPcode) {
@@ -40,7 +44,15 @@ class SalesItemModel {
   }
 
   set quantity(int newQty) {
-    _quantity = newQty;
+    if (newQty >= 1) {
+      _quantity = newQty;
+    }
+  }
+
+  set price(int newPrice) {
+    if (newPrice >= 1) {
+      _price = newPrice;
+    }
   }
 
   set date(String newDate) {
@@ -57,6 +69,7 @@ class SalesItemModel {
     map['productCode'] = _productCode;
     map['name'] = _name;
     map['quantity'] = _quantity;
+    map['price'] = _price;
     map['date'] = _date;
 
     return map;
@@ -64,10 +77,11 @@ class SalesItemModel {
 
   // extract a SalesItemModel object from a Map object
   SalesItemModel.fromMapObject(Map<String, dynamic> map) {
-    this._id = map['id'];
-    this._productCode = map['productCode'];
-    this._name = map['name'];
-    this._quantity = map['quantity'];
-    this._date = map['date'];
+    _id = map['id'];
+    _productCode = map['productCode'];
+    _name = map['name'];
+    _quantity = map['quantity'];
+    _price = map['price'];
+    _date = map['date'];
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:d_pos_v2/components/drawer_list_tile.dart';
 import 'package:d_pos_v2/constants/constants.dart';
 import 'package:d_pos_v2/models/inventory_model.dart';
@@ -6,9 +8,7 @@ import 'package:d_pos_v2/ui/stock_list.dart';
 import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatelessWidget {
-  DrawerMenu({super.key});
-
-  List<InventoryModel> inventoryList = [];
+  const DrawerMenu({super.key});
 
   @override
   Widget build(
@@ -22,15 +22,15 @@ class DrawerMenu extends StatelessWidget {
             child: Image.asset('assets/images/dhc_logo.png'),
           ),
           DrawerListTile(
-              title: 'dashboard',
+              title: 'D A S H B O A R D',
               svgSrc: 'assets/icons/Dashboard.svg',
               tap: () {}),
           DrawerListTile(
-              title: 'messages',
+              title: 'M E S S A G E S',
               svgSrc: 'assets/icons/Message.svg',
               tap: () {}),
           DrawerListTile(
-              title: 'inventory',
+              title: 'I N V E N T O R Y',
               svgSrc: 'assets/icons/inventory.svg',
               tap: () async {
                 await Navigator.push(context,
@@ -39,7 +39,7 @@ class DrawerMenu extends StatelessWidget {
                 }));
               }),
           DrawerListTile(
-              title: 'sales',
+              title: 'S A L E S',
               svgSrc: 'assets/icons/stock.svg',
               tap: () async {
                 await Navigator.push(context,

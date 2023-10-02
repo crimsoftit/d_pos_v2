@@ -2,7 +2,8 @@ class InventoryModel {
   int? _id;
   int _pCode = 0;
   String _name = "";
-  int _quantity = 1;
+  int _quantity = 0;
+  int _price = 0;
   String _date = "";
 
   InventoryModel(
@@ -10,6 +11,7 @@ class InventoryModel {
     this._pCode,
     this._name,
     this._quantity,
+    this._price,
     this._date,
   );
 
@@ -17,6 +19,7 @@ class InventoryModel {
   int get pCode => _pCode;
   String get name => _name;
   int get quantity => _quantity;
+  int get price => _price;
   String get date => _date;
 
   set pCode(int newPcode) {
@@ -30,7 +33,15 @@ class InventoryModel {
   }
 
   set quantity(int newQty) {
-    _quantity = newQty;
+    if (newQty > 0) {
+      _quantity = newQty;
+    }
+  }
+
+  set price(int newPrice) {
+    if (newPrice >= 1) {
+      _price = newPrice;
+    }
   }
 
   set date(String newDate) {
@@ -47,6 +58,7 @@ class InventoryModel {
     map['pCode'] = _pCode;
     map['name'] = _name;
     map['quantity'] = _quantity;
+    map['price'] = _price;
     map['date'] = _date;
 
     return map;
@@ -58,6 +70,7 @@ class InventoryModel {
     _name = map['name'];
     _pCode = map['pCode'];
     _quantity = map['quantity'];
+    _price = map['price'];
     _date = map['date'];
   }
 }
