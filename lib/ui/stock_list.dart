@@ -1,6 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'package:d_pos_v2/ui/stock_list_dialog.dart';
+import 'package:d_pos_v2/dialogs/stock_list_dialog.dart';
 import 'package:d_pos_v2/utils/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:d_pos_v2/models/inventory_model.dart';
@@ -29,7 +29,13 @@ class _StockListState extends State<StockList> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('inventory list'),
+        foregroundColor: Colors.white,
+        title: const Text(
+          'inventory list',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
       body: ListView.builder(
           itemCount: (inventoryList != null) ? inventoryList.length : 0,
@@ -91,13 +97,16 @@ class _StockListState extends State<StockList> {
             context: context,
             builder: (BuildContext context) => dialog.buildDialog(
               context,
-              InventoryModel(0, 0, '', 0, 0, ''),
+              InventoryModel(0, 0, '', 0, 0, 0, ''),
               true,
             ),
           );
         },
-        backgroundColor: Colors.pink,
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.brown,
+        foregroundColor: Colors.white,
+        child: const Icon(
+          Icons.add,
+        ),
       ),
     );
   }

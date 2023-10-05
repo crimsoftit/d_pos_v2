@@ -1,16 +1,13 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'package:d_pos_v2/models/inventory_model.dart';
-import 'package:d_pos_v2/ui/sale_item_dialog.dart';
+import 'package:d_pos_v2/dialogs/sale_item_dialog.dart';
 import 'package:d_pos_v2/utils/db_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:d_pos_v2/models/sales_item_model.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class SoldItemsScreen extends StatefulWidget {
-  SoldItemsScreen({super.key});
+  const SoldItemsScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api, no_logic_in_create_state
@@ -71,7 +68,11 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
                 context, SalesItemModel(0, "", 0, 0, ""), true),
           );
         },
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.brown,
+        foregroundColor: Colors.white,
+        hoverColor: Colors.orange,
+        splashColor: Colors.tealAccent,
+        focusColor: Colors.blue,
         child: const Icon(Icons.add),
       ),
     );

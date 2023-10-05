@@ -1,9 +1,12 @@
+// ignore_for_file: unnecessary_getters_setters
+
 class InventoryModel {
   int? _id;
   int _pCode = 0;
   String _name = "";
   int _quantity = 0;
-  int _price = 0;
+  int _buyingPrice = 0;
+  int _unitSellingPrice = 0;
   String _date = "";
 
   InventoryModel(
@@ -11,7 +14,8 @@ class InventoryModel {
     this._pCode,
     this._name,
     this._quantity,
-    this._price,
+    this._buyingPrice,
+    this._unitSellingPrice,
     this._date,
   );
 
@@ -19,7 +23,8 @@ class InventoryModel {
   int get pCode => _pCode;
   String get name => _name;
   int get quantity => _quantity;
-  int get price => _price;
+  int get buyingPrice => _buyingPrice;
+  int get unitSellingPrice => _unitSellingPrice;
   String get date => _date;
 
   set pCode(int newPcode) {
@@ -38,9 +43,15 @@ class InventoryModel {
     }
   }
 
-  set price(int newPrice) {
-    if (newPrice >= 1) {
-      _price = newPrice;
+  set buyingPrice(int newBP) {
+    if (newBP >= 5) {
+      _buyingPrice = newBP;
+    }
+  }
+
+  set unitSellingPrice(int newUSP) {
+    if (newUSP >= 5) {
+      _unitSellingPrice = newUSP;
     }
   }
 
@@ -58,7 +69,8 @@ class InventoryModel {
     map['pCode'] = _pCode;
     map['name'] = _name;
     map['quantity'] = _quantity;
-    map['price'] = _price;
+    map['buyingPrice'] = _buyingPrice;
+    map['unitSellingPrice'] = _unitSellingPrice;
     map['date'] = _date;
 
     return map;
@@ -70,7 +82,8 @@ class InventoryModel {
     _name = map['name'];
     _pCode = map['pCode'];
     _quantity = map['quantity'];
-    _price = map['price'];
+    _buyingPrice = map['buyingPrice'];
+    _unitSellingPrice = map['unitSellingPrice'];
     _date = map['date'];
   }
 }

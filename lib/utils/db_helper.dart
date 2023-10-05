@@ -1,21 +1,19 @@
 import 'package:path/path.dart';
-import 'dart:io' show Directory;
+
 import 'package:sqflite/sqflite.dart';
 import 'package:d_pos_v2/models/inventory_model.dart';
 import 'package:d_pos_v2/models/sales_item_model.dart';
-import 'package:path_provider/path_provider.dart'
-    show getApplicationDocumentsDirectory;
 
 class DbHelper {
   final int version = 1;
 
-  static final invTable = 'inventory';
-  static final salesTable = 'sales';
-  static final invColumnId = 'id';
-  static final invColumnName = 'name';
-  static final invColumnQty = 'quantity';
-  static final invColumnPrice = 'price';
-  static final invColumnCode = 'pCode';
+  static const invTable = 'inventory';
+  static const salesTable = 'sales';
+  static const invColumnId = 'id';
+  static const invColumnName = 'name';
+  static const invColumnQty = 'quantity';
+  static const invColumnPrice = 'price';
+  static const invColumnCode = 'pCode';
 
   Database? db;
 
@@ -37,7 +35,7 @@ class DbHelper {
     db = await openDatabase(join(await getDatabasesPath(), 'stock.db'),
         onCreate: (database, version) {
       database.execute(
-          'CREATE TABLE inventory (id INTEGER, pCode INTEGER PRIMARY KEY, name TEXT, quantity INTEGER, price INTEGER, date TEXT)');
+          'CREATE TABLE inventory (id INTEGER, pCode INTEGER PRIMARY KEY, name TEXT, quantity INTEGER, buyingPrice INTEGER, unitSellingPrice INTEGER, date TEXT)');
 
       database.execute(
           'CREATE TABLE sales(id INTEGER PRIMARY KEY AUTOINCREMENT, productCode INTEGER, name TEXT, quantity INTEGER, price INTEGER, date TEXT, FOREIGN KEY(productCode) REFERENCES inventory(pCode))');
@@ -49,7 +47,7 @@ class DbHelper {
     db = await openDb();
 
     await db!.execute(
-        'INSERT INTO inventory VALUES (0, 12, "fruit", 2, 20, "3/2/2021")');
+        'INSERT INTO inventory VALUES (0, 12, "fruit", 2, 200, 10, "3/2/2021")');
     await db!.execute(
         'INSERT INTO sales VALUES (0, 0, "apples", 13, 15,  "2/1/2022")');
     List inventory = await db!.rawQuery('select * from inventory');
@@ -79,7 +77,8 @@ class DbHelper {
         maps[i]['pCode'],
         maps[i]['name'],
         maps[i]['quantity'],
-        maps[i]['price'],
+        maps[i]['buyingPrice'],
+        maps[i]['unitSellingPrice'],
         maps[i]['date'],
       );
     });

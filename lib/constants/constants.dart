@@ -1,13 +1,13 @@
-import 'package:d_pos_v2/components/drawer_list_tile.dart';
+import 'package:d_pos_v2/ui/components/drawer_list_tile.dart';
 import 'package:flutter/material.dart';
 
-var myDefaultBackground = Colors.grey[300];
+var myDefaultBackground = Colors.orange[100];
 
 // Default App Padding
 const appPadding = 2.0;
 
 var myAppBar = AppBar(
-  backgroundColor: Colors.greenAccent,
+  backgroundColor: myDefaultBackground,
 );
 
 var myDrawer = Drawer(

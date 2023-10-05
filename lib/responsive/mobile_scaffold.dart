@@ -1,4 +1,4 @@
-import 'package:d_pos_v2/components/drawer_menu.dart';
+import 'package:d_pos_v2/ui/components/drawer_menu.dart';
 import 'package:d_pos_v2/constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
     return Scaffold(
       appBar: myAppBar,
       backgroundColor: myDefaultBackground,
-      drawer: DrawerMenu(),
+      drawer: const DrawerMenu(),
     );
   }
 }
