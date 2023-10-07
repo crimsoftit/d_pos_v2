@@ -84,6 +84,16 @@ class DbHelper {
     });
   }
 
+  Future<int?> getFetchedItemCount(int pCode) async {
+    Database? _database = await db;
+    if (_database != null) {
+      var fCount = Sqflite.firstIntValue(await _database.rawQuery(
+          'select count (*) from inventory where pCode = ?', [pCode]));
+      return fCount;
+    }
+    return null;
+  }
+
   Future<List<Map<String, dynamic>>> getSalesListMap() async {
     var ormResult = await db!.query('Sales');
     return ormResult;
@@ -122,21 +132,6 @@ class DbHelper {
     return inventoryItems;
   }
 
-  // get the 'Map List' [ List<Map> ] and convert it to 'Stock List' [ List<Stock> ]
-  // Future<List<InventoryModel>> getInventoryList(int pCode) async {
-  //   var invItemMapList = await getScannedInvMapList(pCode);
-
-  //   int invCount = invItemMapList.length;
-
-  //   List<InventoryModel> scannedInvItems = <InventoryModel>[];
-
-  //   // for loop to create an 'InventoryList' Object from a 'MapList' Object
-  //   for (int i = 0; i < invCount; i++) {
-  //     scannedInvItems.add(InventoryModel.fromMapObject(scannedInvItems[i]));
-  //   }
-  //   return inventoryItems;
-  // }
-
   Future<List<SalesItemModel>> getSalesList() async {
     var soldItems = await getSalesListMap();
 
@@ -166,6 +161,17 @@ class DbHelper {
       'sales',
       where: 'pCode = ?',
       whereArgs: [soldItem.productCode],
+    );
+    return result;
+  }
+
+  Future<int> onSaleSuccessUpdateInventory(
+      InventoryModel inventory, int prCode) async {
+    int result = await db!.update(
+      'inventory',
+      inventory.toMap(),
+      where: 'pCode = ?',
+      whereArgs: [prCode],
     );
     return result;
   }

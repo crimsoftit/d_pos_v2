@@ -23,6 +23,8 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
 
   ForSaleItemDialog dialog = ForSaleItemDialog();
 
+  int? fCount;
+
   @override
   void initState() {
     dialog = ForSaleItemDialog();
@@ -62,6 +64,8 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           //showScannedItems(fetchedCode!);
+          //ScanItem();
+
           showDialog(
             context: context,
             builder: (BuildContext context) => dialog.buildAlert(
