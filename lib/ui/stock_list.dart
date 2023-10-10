@@ -21,91 +21,101 @@ class _StockListState extends State<StockList> {
   void initState() {
     dialog = StockListDialog();
     super.initState();
+    //showInventoryData();
   }
 
   @override
   Widget build(BuildContext context) {
     showInventoryData();
 
-    return Scaffold(
-      appBar: AppBar(
-        foregroundColor: Colors.white,
-        title: const Text(
-          'inventory list',
-          style: TextStyle(
-            color: Colors.white,
+    return RefreshIndicator(
+      onRefresh: () async {
+        await helper.openDb();
+        inventoryList = await helper.getInventoryList();
+        setState(() {
+          inventoryList = inventoryList;
+        });
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          foregroundColor: Colors.white,
+          title: const Text(
+            'inventory list',
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
         ),
-      ),
-      body: ListView.builder(
-          itemCount: (inventoryList != null) ? inventoryList.length : 0,
-          itemBuilder: (BuildContext context, int index) {
-            return Dismissible(
-              key: Key(inventoryList[index].name),
-              onDismissed: (direction) {
-                String strName = inventoryList[index].name;
-                helper.deleteInventoryItem(inventoryList[index]);
-                setState(() {
-                  inventoryList.removeAt(index);
-                });
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("$strName deleted"),
-                  ),
-                );
-              },
-              child: ListTile(
-                title: Text(inventoryList[index].name),
-                leading: CircleAvatar(
-                  child: Text(inventoryList[index].quantity.toString()),
-                ),
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) =>
-                  //         SoldItemsScreen(inventoryList[index]),
-                  //   ),
-                  // );
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => dialog.buildDialog(
-                      context,
-                      inventoryList[index],
-                      false,
+        body: ListView.builder(
+            itemCount: (inventoryList != null) ? inventoryList.length : 0,
+            itemBuilder: (BuildContext context, int index) {
+              return Dismissible(
+                key: Key(inventoryList[index].name),
+                onDismissed: (direction) {
+                  String strName = inventoryList[index].name;
+                  helper.deleteInventoryItem(inventoryList[index]);
+                  setState(() {
+                    inventoryList.removeAt(index);
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("$strName deleted"),
                     ),
                   );
                 },
-                trailing: IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
+                child: ListTile(
+                  title: Text(inventoryList[index].name),
+                  leading: CircleAvatar(
+                    child: Text(inventoryList[index].quantity.toString()),
+                  ),
+                  onTap: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) =>
+                    //         SoldItemsScreen(inventoryList[index]),
+                    //   ),
+                    // );
                     showDialog(
-                        context: context,
-                        builder: (BuildContext context) => dialog.buildDialog(
-                              context,
-                              inventoryList[index],
-                              false,
-                            ));
+                      context: context,
+                      builder: (BuildContext context) => dialog.buildDialog(
+                        context,
+                        inventoryList[index],
+                        false,
+                      ),
+                    );
                   },
+                  trailing: IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => dialog.buildDialog(
+                                context,
+                                inventoryList[index],
+                                false,
+                              ));
+                    },
+                  ),
                 ),
+              );
+            }),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => dialog.buildDialog(
+                context,
+                InventoryModel(0, 0, '', 0, 0, 0, ''),
+                true,
               ),
             );
-          }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => dialog.buildDialog(
-              context,
-              InventoryModel(0, 0, '', 0, 0, 0, ''),
-              true,
-            ),
-          );
-        },
-        backgroundColor: Colors.brown,
-        foregroundColor: Colors.white,
-        child: const Icon(
-          Icons.add,
+          },
+          backgroundColor: Colors.brown,
+          foregroundColor: Colors.white,
+          child: const Icon(
+            Icons.add,
+          ),
         ),
       ),
     );

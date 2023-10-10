@@ -1,9 +1,8 @@
 // ignore_for_file: no_logic_in_create_state
 
-import 'package:d_pos_v2/dialogs/helpers/dialog_helper.dart';
 import 'package:d_pos_v2/models/inventory_model.dart';
 import 'package:d_pos_v2/models/sales_item_model.dart';
-import 'package:d_pos_v2/ui/components/custom_form.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:d_pos_v2/utils/db_helper.dart';
@@ -11,18 +10,20 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:intl/intl.dart';
 
 class ForSaleItemDialog extends StatefulWidget {
-  final InventoryModel inventory = InventoryModel(0, 0, '', 0, 0, 0, '');
   List<InventoryModel> items = [];
   final txtCode = TextEditingController();
   final txtName = TextEditingController();
   final txtQty = TextEditingController();
   final txtUnitPrice = TextEditingController();
+  final txtInvQtyAvailable = TextEditingController();
 
   final hiddenField = TextEditingController();
 
   DbHelper helper = DbHelper();
 
-  bool btnVisible = false;
+  int? invItemQty;
+
+  ForSaleItemDialog({super.key});
 
   Widget buildAlert(
       BuildContext context, SalesItemModel forSaleItem, bool isNew) {
@@ -95,7 +96,8 @@ class ForSaleItemDialog extends StatefulWidget {
                     TextFormField(
                       controller: txtQty,
                       decoration: InputDecoration(
-                        labelText: 'quantity/no. of units',
+                        labelText:
+                            'quantity/no. of units (${invItemQty} available)',
                         labelStyle: textStyle,
                       ),
                       keyboardType: const TextInputType.numberWithOptions(
@@ -108,6 +110,8 @@ class ForSaleItemDialog extends StatefulWidget {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
+                        } else if (int.parse(value) > invItemQty!) {
+                          return 'only ${invItemQty} item(s) available in stock...';
                         }
                         return null;
                       },
@@ -118,6 +122,10 @@ class ForSaleItemDialog extends StatefulWidget {
                       decoration: InputDecoration(
                         labelText: 'unit price',
                         labelStyle: textStyle,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
@@ -134,7 +142,7 @@ class ForSaleItemDialog extends StatefulWidget {
                       },
                     ),
                     Visibility(
-                      visible: true,
+                      visible: false,
                       child: TextField(
                         controller: hiddenField,
                         //readOnly: true,
@@ -156,10 +164,10 @@ class ForSaleItemDialog extends StatefulWidget {
                               forSaleItem.price = int.parse(txtUnitPrice.text);
 
                               // update qty in inventory
-                              inventory.pCode =
-                                  inventory.pCode - int.parse(txtQty.text);
+                              int pQty = int.parse(txtInvQtyAvailable.text) -
+                                  int.parse(txtQty.text);
                               helper.onSaleSuccessUpdateInventory(
-                                  inventory, inventory.pCode);
+                                  pQty, forSaleItem.productCode);
 
                               helper.insertSalesItem(forSaleItem);
 
@@ -205,22 +213,15 @@ class ForSaleItemDialog extends StatefulWidget {
 
     hiddenField.text = fCount.toString();
 
-    if (hiddenField.text == "0") {
-      setState(() {
-        btnVisible = false;
-      });
-    }
-
     if (fCount! >= 1) {
-      setState(() {
-        btnVisible = true;
-      });
       items = await helper.getScannedInvList(prCode);
 
       for (var i = 0; i < items.length; i++) {
+        invItemQty = items[i].quantity;
+
         txtCode.text = items[i].pCode.toString();
         txtName.text = items[i].name;
-        hiddenField.text = fCount.toString();
+        txtInvQtyAvailable.text = items[i].quantity.toString();
         txtUnitPrice.text = items[i].unitSellingPrice.toString();
       }
     } else {
@@ -229,9 +230,6 @@ class ForSaleItemDialog extends StatefulWidget {
   }
 
   // update item qty in inventory after successful sale
-  void updateInvQty() {
-    inventory.quantity -= int.parse(txtQty.text);
-  }
 
   @override
   State<StatefulWidget> createState() {

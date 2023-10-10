@@ -29,55 +29,60 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
   void initState() {
     dialog = ForSaleItemDialog();
     super.initState();
+    showSoldItems();
   }
 
   @override
   Widget build(BuildContext context) {
-    showSoldItems();
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sales'),
-      ),
-      body: ListView.builder(
-        itemCount: (soldItems != null) ? soldItems.length : 0,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(soldItems[index].name),
-            subtitle: Text(
-                'qty: ${soldItems[index].quantity} - date: ${soldItems[index].date} - barcode: ${soldItems[index].productCode} - unit price: ${soldItems[index].price}'),
-            onTap: () {},
-            trailing: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) => dialog.buildAlert(
-                          context,
-                          soldItems[index],
-                          false,
-                        ));
-              },
-            ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //showScannedItems(fetchedCode!);
-          //ScanItem();
+    return RefreshIndicator(
+      onRefresh: () async {
+        showSoldItems();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Sales'),
+        ),
+        body: ListView.builder(
+          itemCount: (soldItems != null) ? soldItems.length : 0,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(soldItems[index].name),
+              subtitle: Text(
+                  'qty: ${soldItems[index].quantity} - date: ${soldItems[index].date} - barcode: ${soldItems[index].productCode} - unit price: ${soldItems[index].price}'),
+              onTap: () {},
+              trailing: IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => dialog.buildAlert(
+                            context,
+                            soldItems[index],
+                            false,
+                          ));
+                },
+              ),
+            );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            //showScannedItems(fetchedCode!);
+            //ScanItem();
 
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => dialog.buildAlert(
-                context, SalesItemModel(0, "", 0, 0, ""), true),
-          );
-        },
-        backgroundColor: Colors.brown,
-        foregroundColor: Colors.white,
-        hoverColor: Colors.orange,
-        splashColor: Colors.tealAccent,
-        focusColor: Colors.blue,
-        child: const Icon(Icons.add),
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => dialog.buildAlert(
+                  context, SalesItemModel(0, "", 0, 0, ""), true),
+            );
+          },
+          backgroundColor: Colors.brown,
+          foregroundColor: Colors.white,
+          hoverColor: Colors.orange,
+          splashColor: Colors.tealAccent,
+          focusColor: Colors.blue,
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

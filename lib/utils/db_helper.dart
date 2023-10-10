@@ -165,14 +165,11 @@ class DbHelper {
     return result;
   }
 
-  Future<int> onSaleSuccessUpdateInventory(
-      InventoryModel inventory, int prCode) async {
-    int result = await db!.update(
-      'inventory',
-      inventory.toMap(),
-      where: 'pCode = ?',
-      whereArgs: [prCode],
-    );
+  Future<int> onSaleSuccessUpdateInventory(int qty, int prCode) async {
+    int result = await db!.rawUpdate(''' UPDATE inventory
+          SET quantity = ?
+          WHERE pCode = ?
+      ''', [qty, prCode]);
     return result;
   }
 }
