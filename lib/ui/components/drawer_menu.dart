@@ -12,11 +12,17 @@ class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      width: 200,
+      //backgroundColor: myDefaultBackground,
       child: ListView(
         children: [
           Container(
-            padding: const EdgeInsets.all(2.0),
-            child: Image.asset('assets/images/dhc_logo.png'),
+            padding: const EdgeInsets.all(12.0),
+            height: 200,
+            child: Image.asset(
+              'assets/images/dhc_logo.png',
+              //color: Colors.transparent,
+            ),
           ),
           DrawerListTile(
             title: 'D A S H B O A R D',

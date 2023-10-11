@@ -1,6 +1,7 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, unused_import
 
-import 'package:d_pos_v2/dialogs/sale_item_dialog.dart';
+import 'package:d_pos_v2/constants/constants.dart';
+import 'package:d_pos_v2/ui/dialogs/sale_item_dialog.dart';
 import 'package:d_pos_v2/utils/db_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -34,6 +35,7 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    showSoldItems();
     return RefreshIndicator(
       onRefresh: () async {
         showSoldItems();
@@ -41,6 +43,8 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Sales'),
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.brown[300],
         ),
         body: ListView.builder(
           itemCount: (soldItems != null) ? soldItems.length : 0,
@@ -65,6 +69,7 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
             );
           },
         ),
+        //backgroundColor: myDefaultBackground,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             //showScannedItems(fetchedCode!);

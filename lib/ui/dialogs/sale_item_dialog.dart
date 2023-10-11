@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state
+// ignore_for_file: no_logic_in_create_state, must_be_immutable
 
 import 'package:d_pos_v2/models/inventory_model.dart';
 import 'package:d_pos_v2/models/sales_item_model.dart';
@@ -62,9 +62,10 @@ class ForSaleItemDialog extends StatefulWidget {
                       controller: txtCode,
                       readOnly: true,
                       decoration: InputDecoration(
-                        labelText: 'product barcode',
-                        labelStyle: textStyle,
-                      ),
+                          labelText: 'product barcode',
+                          labelStyle: textStyle,
+                          hintStyle:
+                              const TextStyle(fontStyle: FontStyle.italic)),
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: false,
                         signed: false,
@@ -97,7 +98,7 @@ class ForSaleItemDialog extends StatefulWidget {
                       controller: txtQty,
                       decoration: InputDecoration(
                         labelText:
-                            'quantity/no. of units (${invItemQty} available)',
+                            'quantity/no. of units ($invItemQty available)',
                         labelStyle: textStyle,
                       ),
                       keyboardType: const TextInputType.numberWithOptions(
@@ -111,7 +112,7 @@ class ForSaleItemDialog extends StatefulWidget {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         } else if (int.parse(value) > invItemQty!) {
-                          return 'only ${invItemQty} item(s) available in stock...';
+                          return 'only $invItemQty item(s) available in stock...';
                         }
                         return null;
                       },
@@ -122,31 +123,13 @@ class ForSaleItemDialog extends StatefulWidget {
                       decoration: InputDecoration(
                         labelText: 'unit price',
                         labelStyle: textStyle,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
                       ),
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                        signed: false,
-                      ),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'inventory item NOT found';
                         }
                         return null;
                       },
-                    ),
-                    Visibility(
-                      visible: false,
-                      child: TextField(
-                        controller: hiddenField,
-                        //readOnly: true,
-                      ),
                     ),
                     Visibility(
                       visible: true,

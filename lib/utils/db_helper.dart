@@ -50,10 +50,10 @@ class DbHelper {
         'INSERT INTO inventory VALUES (0, 12, "fruit", 2, 200, 10, "3/2/2021")');
     await db!.execute(
         'INSERT INTO sales VALUES (0, 0, "apples", 13, 15,  "2/1/2022")');
-    List inventory = await db!.rawQuery('select * from inventory');
-    List sales = await db!.rawQuery('select * from sales');
-    print(inventory[0].toString());
-    print(sales[0].toString());
+    //List inventory = await db!.rawQuery('select * from inventory');
+    //List sales = await db!.rawQuery('select * from sales');
+    //print(inventory[0].toString());
+    //print(sales[0].toString());
   }
 
   // fetch operation: get all inventory objects from the database
@@ -85,7 +85,7 @@ class DbHelper {
   }
 
   Future<int?> getFetchedItemCount(int pCode) async {
-    Database? _database = await db;
+    Database? _database = db;
     if (_database != null) {
       var fCount = Sqflite.firstIntValue(await _database.rawQuery(
           'select count (*) from inventory where pCode = ?', [pCode]));

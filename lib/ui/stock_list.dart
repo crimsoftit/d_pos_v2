@@ -1,6 +1,7 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, unused_import
 
-import 'package:d_pos_v2/dialogs/stock_list_dialog.dart';
+import 'package:d_pos_v2/constants/constants.dart';
+import 'package:d_pos_v2/ui/dialogs/stock_list_dialog.dart';
 import 'package:d_pos_v2/utils/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:d_pos_v2/models/inventory_model.dart';
@@ -28,6 +29,8 @@ class _StockListState extends State<StockList> {
   Widget build(BuildContext context) {
     showInventoryData();
 
+    TextStyle? titleStyle = Theme.of(context).textTheme.bodySmall;
+
     return RefreshIndicator(
       onRefresh: () async {
         await helper.openDb();
@@ -39,6 +42,7 @@ class _StockListState extends State<StockList> {
       child: Scaffold(
         appBar: AppBar(
           foregroundColor: Colors.white,
+          backgroundColor: Colors.brown[300],
           title: const Text(
             'inventory list',
             style: TextStyle(
@@ -63,39 +67,46 @@ class _StockListState extends State<StockList> {
                     ),
                   );
                 },
-                child: ListTile(
-                  title: Text(inventoryList[index].name),
-                  leading: CircleAvatar(
-                    child: Text(inventoryList[index].quantity.toString()),
-                  ),
-                  onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) =>
-                    //         SoldItemsScreen(inventoryList[index]),
-                    //   ),
-                    // );
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => dialog.buildDialog(
-                        context,
-                        inventoryList[index],
-                        false,
-                      ),
-                    );
-                  },
-                  trailing: IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
+                child: Card(
+                  color: Colors.white,
+                  elevation: 1.0,
+                  child: ListTile(
+                    title: Text(inventoryList[index].name),
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.brown[300],
+                      child: Text(inventoryList[index].name[0]),
+                      //const Icon(Icons.keyboard_arrow_right),
+                    ),
+                    subtitle: Text(
+                      inventoryList[index].date,
+                      style: titleStyle,
+                    ),
+                    onTap: () {
                       showDialog(
-                          context: context,
-                          builder: (BuildContext context) => dialog.buildDialog(
-                                context,
-                                inventoryList[index],
-                                false,
-                              ));
+                        context: context,
+                        builder: (BuildContext context) => dialog.buildDialog(
+                          context,
+                          inventoryList[index],
+                          false,
+                        ),
+                      );
                     },
+                    trailing: IconButton(
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Color.fromARGB(255, 153, 113, 98),
+                      ),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                dialog.buildDialog(
+                                  context,
+                                  inventoryList[index],
+                                  false,
+                                ));
+                      },
+                    ),
                   ),
                 ),
               );

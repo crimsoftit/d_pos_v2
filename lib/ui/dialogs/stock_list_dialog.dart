@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:clock/clock.dart';
 
 class StockListDialog {
   final txtName = TextEditingController();
@@ -35,7 +36,7 @@ class StockListDialog {
     }
 
     return AlertDialog(
-      title: Text((isNew) ? 'new entry...' : 'edit entry...'),
+      title: Text((isNew) ? 'new entry...' : invModel.name),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       content: SingleChildScrollView(
         child: Column(
@@ -146,7 +147,7 @@ class StockListDialog {
                         invModel.buyingPrice = int.parse(txtBP.text);
                         invModel.unitSellingPrice = int.parse(txtUnitSP.text);
                         invModel.date =
-                            DateFormat.yMMMd().format(DateTime.now());
+                            DateFormat('yyyy-MM-dd - kk:mm').format(now);
                         helper.insertInventoryList(invModel);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Processing Data')),
