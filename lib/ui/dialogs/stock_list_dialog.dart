@@ -142,7 +142,7 @@ class StockListDialog {
                       // Validate returns true if the form is valid, or false otherwise.
                       if (formKey.currentState!.validate()) {
                         invModel.name = txtName.text;
-                        invModel.pCode = int.parse(txtCode.text);
+                        invModel.pCode = txtCode.text;
                         invModel.quantity = int.parse(txtQty.text);
                         invModel.buyingPrice = int.parse(txtBP.text);
                         invModel.unitSellingPrice = int.parse(txtUnitSP.text);

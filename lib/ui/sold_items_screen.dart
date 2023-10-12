@@ -35,6 +35,7 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle? subTitleStyle = Theme.of(context).textTheme.bodySmall;
     showSoldItems();
     return RefreshIndicator(
       onRefresh: () async {
@@ -49,22 +50,33 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
         body: ListView.builder(
           itemCount: (soldItems != null) ? soldItems.length : 0,
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(soldItems[index].name),
-              subtitle: Text(
-                  'qty: ${soldItems[index].quantity} - date: ${soldItems[index].date} - barcode: ${soldItems[index].productCode} - unit price: ${soldItems[index].price}'),
-              onTap: () {},
-              trailing: IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) => dialog.buildAlert(
-                            context,
-                            soldItems[index],
-                            false,
-                          ));
-                },
+            return Card(
+              color: Colors.white,
+              elevation: 1.0,
+              child: ListTile(
+                title: Text(soldItems[index].name),
+                leading: CircleAvatar(
+                  backgroundColor: Colors.brown[300],
+                  child: Text(soldItems[index].name[0]),
+                ),
+                subtitle: Text(
+                  soldItems[index].date,
+                  style: subTitleStyle,
+                ),
+                //'qty: ${soldItems[index].quantity} - date: ${soldItems[index].date} - barcode: ${soldItems[index].productCode} - unit price: ${soldItems[index].price}'
+                onTap: () {},
+                trailing: IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => dialog.buildAlert(
+                              context,
+                              soldItems[index],
+                              false,
+                            ));
+                  },
+                ),
               ),
             );
           },
@@ -78,7 +90,7 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
             showDialog(
               context: context,
               builder: (BuildContext context) => dialog.buildAlert(
-                  context, SalesItemModel(0, "", 0, 0, ""), true),
+                  context, SalesItemModel("", "", 0, 0, ""), true),
             );
           },
           backgroundColor: Colors.brown,

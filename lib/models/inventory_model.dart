@@ -2,7 +2,7 @@
 
 class InventoryModel {
   int? _id;
-  int _pCode = 0;
+  String _pCode = "";
   String _name = "";
   int _quantity = 0;
   int _buyingPrice = 0;
@@ -20,14 +20,14 @@ class InventoryModel {
   );
 
   int? get id => _id;
-  int get pCode => _pCode;
+  String get pCode => _pCode;
   String get name => _name;
   int get quantity => _quantity;
   int get buyingPrice => _buyingPrice;
   int get unitSellingPrice => _unitSellingPrice;
   String get date => _date;
 
-  set pCode(int newPcode) {
+  set pCode(String newPcode) {
     _pCode = newPcode;
   }
 

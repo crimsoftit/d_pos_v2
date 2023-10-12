@@ -28,8 +28,7 @@ class _StockListState extends State<StockList> {
   @override
   Widget build(BuildContext context) {
     showInventoryData();
-
-    TextStyle? titleStyle = Theme.of(context).textTheme.bodySmall;
+    TextStyle? subTitleStyle = Theme.of(context).textTheme.bodySmall;
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -79,7 +78,7 @@ class _StockListState extends State<StockList> {
                     ),
                     subtitle: Text(
                       inventoryList[index].date,
-                      style: titleStyle,
+                      style: subTitleStyle,
                     ),
                     onTap: () {
                       showDialog(
@@ -117,7 +116,7 @@ class _StockListState extends State<StockList> {
               context: context,
               builder: (BuildContext context) => dialog.buildDialog(
                 context,
-                InventoryModel(0, 0, '', 0, 0, 0, ''),
+                InventoryModel(0, '', '', 0, 0, 0, ''),
                 true,
               ),
             );

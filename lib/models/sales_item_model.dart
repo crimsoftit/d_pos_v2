@@ -2,7 +2,7 @@
 
 class SalesItemModel {
   int? _id;
-  int _productCode = 0;
+  String _productCode = "";
   String _name = "";
   int _quantity = 0;
   int _price = 0;
@@ -27,14 +27,16 @@ class SalesItemModel {
 
   int? get id => _id;
 
-  int get productCode => _productCode;
+  String get productCode => _productCode;
   String get name => _name;
   int get quantity => _quantity;
   int get price => _price;
   String get date => _date;
 
-  set productCode(int newPcode) {
-    _productCode = newPcode;
+  set productCode(String newPcode) {
+    if (newPcode.length <= 255 || newPcode.length >= 2) {
+      _productCode = newPcode;
+    }
   }
 
   set name(String newName) {

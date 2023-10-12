@@ -22,6 +22,7 @@ class ForSaleItemDialog extends StatefulWidget {
   DbHelper helper = DbHelper();
 
   int? invItemQty;
+  int? totalCost;
 
   ForSaleItemDialog({super.key});
 
@@ -36,14 +37,18 @@ class ForSaleItemDialog extends StatefulWidget {
       txtName.text = forSaleItem.name;
       txtQty.text = forSaleItem.quantity.toString();
       txtUnitPrice.text = forSaleItem.price.toString();
+
+      totalCost = forSaleItem.quantity * forSaleItem.price;
+      setState(() {
+        totalCost = totalCost;
+      });
     } else {
       txtCode.text = "";
       txtName.text = "";
       txtQty.text = "";
       txtUnitPrice.text = "";
+      scanBarcode();
     }
-
-    scanBarcode();
 
     return AlertDialog(
       title: Text((isNew) ? 'new sale entry' : 'edit sale entry'),
@@ -97,8 +102,9 @@ class ForSaleItemDialog extends StatefulWidget {
                     TextFormField(
                       controller: txtQty,
                       decoration: InputDecoration(
-                        labelText:
-                            'quantity/no. of units ($invItemQty available)',
+                        labelText: (invItemQty) != null
+                            ? 'quantity/no. of units ($invItemQty available)'
+                            : 'quantity/no. of units',
                         labelStyle: textStyle,
                       ),
                       keyboardType: const TextInputType.numberWithOptions(
@@ -116,6 +122,14 @@ class ForSaleItemDialog extends StatefulWidget {
                         }
                         return null;
                       },
+                      onChanged: (value) {
+                        totalCost =
+                            int.parse(value) * int.parse(txtUnitPrice.text);
+
+                        setState(() {
+                          totalCost = totalCost;
+                        });
+                      },
                     ),
                     TextFormField(
                       controller: txtUnitPrice,
@@ -131,6 +145,14 @@ class ForSaleItemDialog extends StatefulWidget {
                         return null;
                       },
                     ),
+                    Card(
+                      elevation: 2.0,
+                      color: Colors.white,
+                      child: SizedBox(
+                        height: 50,
+                        child: Text('Total cost - $totalCost'),
+                      ),
+                    ),
                     Visibility(
                       visible: true,
                       child: Padding(
@@ -140,7 +162,7 @@ class ForSaleItemDialog extends StatefulWidget {
                             // validator returns true if form is valid and vice-versa
                             if (formKey.currentState!.validate()) {
                               forSaleItem.name = txtName.text;
-                              forSaleItem.productCode = int.parse(txtCode.text);
+                              forSaleItem.productCode = txtCode.text;
                               forSaleItem.quantity = int.parse(txtQty.text);
                               forSaleItem.date =
                                   DateFormat.yMMMd().format(DateTime.now());
@@ -182,14 +204,13 @@ class ForSaleItemDialog extends StatefulWidget {
       scanResults = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'cancel', true, ScanMode.BARCODE);
 
-      int sr = int.parse(scanResults);
-      showFetchedItem(sr);
+      showFetchedItem(scanResults);
     } on PlatformException {
       scanResults = "failed to get platform version ..";
     }
   }
 
-  Future showFetchedItem(int prCode) async {
+  Future showFetchedItem(String prCode) async {
     await helper.openDb();
 
     var fCount = await helper.getFetchedItemCount(prCode);
@@ -202,7 +223,7 @@ class ForSaleItemDialog extends StatefulWidget {
       for (var i = 0; i < items.length; i++) {
         invItemQty = items[i].quantity;
 
-        txtCode.text = items[i].pCode.toString();
+        txtCode.text = items[i].pCode;
         txtName.text = items[i].name;
         txtInvQtyAvailable.text = items[i].quantity.toString();
         txtUnitPrice.text = items[i].unitSellingPrice.toString();
