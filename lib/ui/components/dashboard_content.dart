@@ -11,12 +11,35 @@ class DashboardContent extends StatefulWidget {
 class _DashboardContentState extends State<DashboardContent> {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: SingleChildScrollView(
         padding: EdgeInsets.all(appPadding),
         child: Column(
           children: [
-            //CustomAppbar(),
+            // 4 boxes on top
+
+            AspectRatio(
+              aspectRatio: 1,
+              child: SizedBox(
+                width: double.infinity,
+                child: GridView.builder(
+                  itemCount: 6,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        color: Colors.brown[100],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+
+            // tiles below
           ],
         ),
       ),
