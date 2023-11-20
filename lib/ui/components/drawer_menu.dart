@@ -12,7 +12,7 @@ class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: 200,
+      //width: 200,
       //backgroundColor: myDefaultBackground,
       child: ListView(
         children: [
@@ -72,7 +72,7 @@ class DrawerMenu extends StatelessWidget {
             tap: () {},
           ),
           DrawerListTile(
-            title: 'logout',
+            title: 'L O G O U T',
             svgSrc: 'assets/icons/Logout.svg',
             tap: () {},
           ),

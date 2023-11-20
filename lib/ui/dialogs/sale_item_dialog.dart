@@ -149,7 +149,7 @@ class ForSaleItemDialog extends StatefulWidget {
                       elevation: 2.0,
                       color: Colors.white,
                       child: SizedBox(
-                        height: 50,
+                        height: 40,
                         child: Text('Total cost - $totalCost'),
                       ),
                     ),

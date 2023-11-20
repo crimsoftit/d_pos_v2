@@ -6,6 +6,12 @@ var myDefaultBackground = Colors.orange[100];
 // Default App Padding
 const appPadding = 2.0;
 
+const secondaryColor = Colors.white;
+const bgColor = Color.fromRGBO(247, 251, 254, 1);
+const textColor = Colors.blueGrey;
+const lightTextColor = Colors.black26;
+const transparent = Colors.transparent;
+
 var myAppBar = AppBar(
   backgroundColor: myDefaultBackground,
 );
