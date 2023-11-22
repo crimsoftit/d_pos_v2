@@ -39,11 +39,12 @@ class _StockListState extends State<StockList> {
         });
       },
       child: Scaffold(
+        backgroundColor: Colors.brown[100],
         appBar: AppBar(
           foregroundColor: Colors.white,
           backgroundColor: Colors.brown[300],
           title: const Text(
-            'inventory list',
+            'I N V E N T O R Y',
             style: TextStyle(
               color: Colors.white,
             ),

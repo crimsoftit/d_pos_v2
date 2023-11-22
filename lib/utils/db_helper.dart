@@ -94,16 +94,6 @@ class DbHelper {
     });
   }
 
-  Future<int?> getFetchedItemCount(String pCode) async {
-    Database? _database = db;
-    if (_database != null) {
-      var fCount = Sqflite.firstIntValue(await _database.rawQuery(
-          'select count (*) from inventory where pCode = ?', [pCode]));
-      return fCount;
-    }
-    return null;
-  }
-
   Future<List<Map<String, dynamic>>> getSalesListMap() async {
     var ormResult = await db!.query('Sales');
     return ormResult;
@@ -181,5 +171,27 @@ class DbHelper {
           WHERE pCode = ?
       ''', [qty, prCode]);
     return result;
+  }
+
+  Future<int?> getFetchedItemCount(String pCode) async {
+    Database? database = db;
+    if (database != null) {
+      var fCount = Sqflite.firstIntValue(await database.rawQuery(
+          'select count (*) from inventory where pCode = ?', [pCode]));
+      return fCount;
+    }
+    return null;
+  }
+
+  // get value of stock/inventory
+  Future getInventoryValue() async {
+    Database? database = db;
+    if (database != null) {
+      var inventoryValue = await database
+          .rawQuery('SELECT SUM(buyingPrice) AS T_INV from inventory');
+      print(inventoryValue.toList());
+      return inventoryValue.toList();
+    }
+    return null;
   }
 }

@@ -43,9 +43,9 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Sales'),
+          title: const Text('S A L E S'),
           foregroundColor: Colors.white,
-          backgroundColor: Colors.brown[300],
+          backgroundColor: primaryColor,
         ),
         body: ListView.builder(
           itemCount: (soldItems != null) ? soldItems.length : 0,
@@ -56,7 +56,7 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
               child: ListTile(
                 title: Text(soldItems[index].name),
                 leading: CircleAvatar(
-                  backgroundColor: Colors.brown[300],
+                  backgroundColor: primaryColor,
                   child: Text(soldItems[index].name[0]),
                 ),
                 subtitle: Text(
@@ -64,7 +64,15 @@ class _SoldItemsScreenState extends State<SoldItemsScreen> {
                   style: subTitleStyle,
                 ),
                 //'qty: ${soldItems[index].quantity} - date: ${soldItems[index].date} - barcode: ${soldItems[index].productCode} - unit price: ${soldItems[index].price}'
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => dialog.buildAlert(
+                            context,
+                            soldItems[index],
+                            false,
+                          ));
+                },
                 trailing: IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () {

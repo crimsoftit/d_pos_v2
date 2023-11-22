@@ -146,8 +146,8 @@ class StockListDialog {
                         invModel.quantity = int.parse(txtQty.text);
                         invModel.buyingPrice = int.parse(txtBP.text);
                         invModel.unitSellingPrice = int.parse(txtUnitSP.text);
-                        invModel.date =
-                            DateFormat('yyyy-MM-dd - kk:mm').format(now);
+                        invModel.date = DateFormat('yyyy-MM-dd - kk:mm')
+                            .format(clock.now());
                         helper.insertInventoryList(invModel);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Processing Data')),
